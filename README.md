@@ -6,8 +6,8 @@
 
 **An independent, clean-room, cross-platform accounting suite — phase 0: QuickBooks Desktop read-path spike**
 
-[![CI](https://github.com/maniesh-NR/RapidTallyAce/actions/workflows/ci.yml/badge.svg)](https://github.com/maniesh-NR/RapidTallyAce/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/maniesh-NR/RapidTallyAce)](https://github.com/maniesh-NR/RapidTallyAce/releases)
+[![CI](https://github.com/maniesh-NR/RapidTally-Ace/actions/workflows/ci.yml/badge.svg)](https://github.com/maniesh-NR/RapidTally-Ace/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/maniesh-NR/RapidTally-Ace)](https://github.com/maniesh-NR/RapidTally-Ace/releases)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue)](#license--attribution)
 ![Platforms](https://img.shields.io/badge/platforms-Windows%207%2B%20%7C%20macOS%20Catalina%2B%20%7C%20Android%20Oreo%2B%20%7C%20Linux%20%2B%20Flatpak-0a7f78)
 
@@ -41,7 +41,7 @@ phases that follow (see [`docs/ROADMAP.md`](docs/ROADMAP.md)).
 ## Downloads (v0.1.0)
 
 Grab the latest build from the
-[Releases page](https://github.com/maniesh-NR/RapidTallyAce/releases):
+[Releases page](https://github.com/maniesh-NR/RapidTally-Ace/releases):
 
 | Asset | Platform | Minimum OS |
 |---|---|---|
@@ -66,7 +66,7 @@ Windows 7) via [`rust-toolchain.toml`](rust-toolchain.toml) — rustup installs 
 automatically:
 
 ```bash
-git clone https://github.com/maniesh-NR/RapidTallyAce.git
+git clone https://github.com/maniesh-NR/RapidTally-Ace.git
 cd RapidTallyAce
 cargo test --workspace
 cargo build --release

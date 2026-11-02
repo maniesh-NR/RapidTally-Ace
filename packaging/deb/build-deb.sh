@@ -35,7 +35,7 @@ Description: Clean-room QuickBooks Desktop database probe (RapidTally Ace, phase
  .
  Built with GLM (Z.ai) under the direction of the project owner.
  Not affiliated with Intuit Inc. "QuickBooks" is a trademark of Intuit Inc.
-Homepage: https://github.com/maniesh-NR/RapidTallyAce
+Homepage: https://github.com/maniesh-NR/RapidTally-Ace
 EOF
 
 mkdir -p dist

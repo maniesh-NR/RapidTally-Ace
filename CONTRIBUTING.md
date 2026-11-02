@@ -15,7 +15,7 @@ that touches QuickBooks-related behavior. In short:
 ## 2. Development workflow
 
 ```bash
-git clone https://github.com/maniesh-NR/RapidTallyAce.git
+git clone https://github.com/maniesh-NR/RapidTally-Ace.git
 cd RapidTallyAce
 cargo test --workspace          # toolchain auto-pinned to 1.77.2 by rustup
 cargo fmt --all

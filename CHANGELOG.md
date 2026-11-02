@@ -28,4 +28,4 @@ versioning: SemVer, with phase labels.
 - Project renamed from the internal codename **Bookwright** to
   **RapidTally Ace**; new logo integrated (banner, icons, Flatpak icon).
 
-[0.1.0]: https://github.com/maniesh-NR/RapidTallyAce/releases/tag/v0.1.0
+[0.1.0]: https://github.com/maniesh-NR/RapidTally-Ace/releases/tag/v0.1.0

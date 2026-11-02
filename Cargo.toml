@@ -11,9 +11,9 @@ edition = "2021"
 rust-version = "1.77.2"
 license = "MIT OR Apache-2.0"
 authors = ["RapidTally Ace Project Contributors"]
-repository = "https://github.com/maniesh-NR/RapidTallyAce"
-homepage = "https://github.com/maniesh-NR/RapidTallyAce"
-documentation = "https://github.com/maniesh-NR/RapidTallyAce/tree/main/docs"
+repository = "https://github.com/maniesh-NR/RapidTally-Ace"
+homepage = "https://github.com/maniesh-NR/RapidTally-Ace"
+documentation = "https://github.com/maniesh-NR/RapidTally-Ace/tree/main/docs"
 
 [profile.release]
 strip = true
