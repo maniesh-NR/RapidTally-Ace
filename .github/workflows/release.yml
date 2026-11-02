@@ -55,7 +55,7 @@ jobs:
 
   macos:
     name: macOS Catalina+ (x86_64 + universal2)
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
