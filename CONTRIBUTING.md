@@ -39,5 +39,5 @@ cargo clippy --workspace --all-targets -- -D warnings
 
 ## 4. Licensing
 
-By contributing you agree your work is dual-licensed MIT OR Apache-2.0 and
+By contributing you agree your work is licensed under AGPL-3.0-or-later and
 complies with the clean-room protocol.

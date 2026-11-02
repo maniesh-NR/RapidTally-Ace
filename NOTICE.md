@@ -3,8 +3,9 @@ NOTICE — RapidTally Ace
 
 Copyright (c) 2026 the RapidTally Ace project contributors.
 
-This software is dual-licensed under the MIT License and the Apache License
-2.0; you may use it under either license (see LICENSE-MIT / LICENSE-APACHE).
+This software is licensed under the GNU Affero General Public License v3.0
+(or any later version, at your option) — see the LICENSE file in the
+repository root for the full text.
 
 AI assistance
 -------------

@@ -43,7 +43,7 @@ jobs:
             $stage = "staging/rapidtally-ace-$env:VERSION-windows-$arch"
             New-Item -ItemType Directory -Force -Path $stage | Out-Null
             Copy-Item "target/$arch-pc-windows-msvc/release/rapidtally-ace.exe" $stage/
-            Copy-Item LICENSE-MIT, LICENSE-APACHE, NOTICE.md, README.md, CHANGELOG.md $stage/
+            Copy-Item LICENSE, NOTICE.md, README.md, CHANGELOG.md $stage/
             Compress-Archive -Path $stage -DestinationPath "dist/rapidtally-ace-$env:VERSION-windows-$arch.zip"
           }
 
@@ -84,7 +84,7 @@ jobs:
             "target/aarch64-apple-darwin/release/${BIN}"
           codesign --force --sign - "$STAGE1/${BIN}" "$STAGEU/${BIN}"
           for d in "$STAGE1" "$STAGEU"; do
-            cp LICENSE-MIT LICENSE-APACHE NOTICE.md README.md CHANGELOG.md "$d/"
+            cp LICENSE NOTICE.md README.md CHANGELOG.md "$d/"
           done
           (cd staging \
             && zip -qr "../dist/rapidtally-ace-${VERSION}-macos-x86_64.zip" "rapidtally-ace-${VERSION}-macos-x86_64" \
@@ -121,7 +121,7 @@ jobs:
           STAGE="staging/rapidtally-ace-${VERSION}-linux-x86_64"
           mkdir -p "$STAGE"
           cp "target/x86_64-unknown-linux-musl/release/${BIN}" "$STAGE/"
-          cp LICENSE-MIT LICENSE-APACHE NOTICE.md README.md CHANGELOG.md "$STAGE/"
+          cp LICENSE NOTICE.md README.md CHANGELOG.md "$STAGE/"
           tar -czf "dist/rapidtally-ace-${VERSION}-linux-x86_64.tar.gz" -C staging "rapidtally-ace-${VERSION}-linux-x86_64"
           VERSION="$VERSION" bash packaging/deb/build-deb.sh
 
@@ -168,7 +168,7 @@ jobs:
             mkdir -p "$stage/jniLibs/${abi}"
             cp "target/${triple}/release/${BIN}" "$stage/"
             cp "jniLibs/${abi}/"*.so "$stage/jniLibs/${abi}/"
-            cp LICENSE-MIT LICENSE-APACHE NOTICE.md README.md CHANGELOG.md "$stage/"
+            cp LICENSE NOTICE.md README.md CHANGELOG.md "$stage/"
             (cd staging && zip -qr "../dist/rapidtally-ace-${VERSION}-android-${abi}.zip" "rapidtally-ace-${VERSION}-android-${abi}")
           }
           stage_pair arm64-v8a aarch64-linux-android

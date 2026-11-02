@@ -13,8 +13,7 @@ test -f "$BIN" || { echo "missing $BIN - build it first" >&2; exit 1; }
 rm -rf packaging/deb/pkgroot
 mkdir -p "$PKG/DEBIAN"
 install -Dm755 "$BIN" "$PKG/usr/bin/rapidtally-ace"
-install -Dm644 LICENSE-MIT "$PKG/usr/share/doc/rapidtally-ace/LICENSE-MIT"
-install -Dm644 LICENSE-APACHE "$PKG/usr/share/doc/rapidtally-ace/LICENSE-APACHE"
+install -Dm644 LICENSE "$PKG/usr/share/doc/rapidtally-ace/copyright"
 install -Dm644 NOTICE.md "$PKG/usr/share/doc/rapidtally-ace/NOTICE.md"
 install -Dm644 README.md "$PKG/usr/share/doc/rapidtally-ace/README.md"
 install -Dm644 CHANGELOG.md "$PKG/usr/share/doc/rapidtally-ace/changelog"

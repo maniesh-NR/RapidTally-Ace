@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/maniesh-NR/RapidTally-Ace/actions/workflows/ci.yml/badge.svg)](https://github.com/maniesh-NR/RapidTally-Ace/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/maniesh-NR/RapidTally-Ace)](https://github.com/maniesh-NR/RapidTally-Ace/releases)
-[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue)](#license--attribution)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)](#license--attribution)
 ![Platforms](https://img.shields.io/badge/platforms-Windows%207%2B%20%7C%20macOS%20Catalina%2B%20%7C%20Android%20Oreo%2B%20%7C%20Linux%20%2B%20Flatpak-0a7f78)
 
 <img src="assets/icon-256.png" alt="RapidTally Ace logo" width="160">
@@ -106,8 +106,8 @@ No real QuickBooks data files are shipped in this repository.)
 
 ## License & attribution
 
-- **Code & docs:** dual-licensed under [`LICENSE-MIT`](LICENSE-MIT) and
-  [`LICENSE-APACHE`](LICENSE-APACHE) (your choice, Apache-2.0 style).
+- **Code & docs:** licensed under the **GNU Affero General Public License
+  v3.0** ([`LICENSE`](LICENSE)).
 - **AI attribution:** RapidTally Ace v0.1.0 was built with the assistance of
   **GLM-5.3-Flash**, a large language model developed by **Z.ai**, under the
   direction of the project owner — see

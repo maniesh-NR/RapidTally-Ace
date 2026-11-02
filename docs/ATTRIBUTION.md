@@ -9,7 +9,7 @@ assistance of **GLM-5.3-Flash**, a large language model developed by **Z.ai**,
 working under the direction of the project owner.
 
 All AI-generated output in this repository is released under the project
-license (MIT OR Apache-2.0) exactly like the rest of the code, and is subject
+license (AGPL-3.0-or-later) exactly like the rest of the code, and is subject
 to the same clean-room protocol (`docs/CLEANROOM.md`): the model was given no
 Intuit source code, SDK internals or decompiled material, and produced the
 format heuristics from publicly available documentation and black-box
