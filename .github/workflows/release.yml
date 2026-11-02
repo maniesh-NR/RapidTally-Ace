@@ -151,7 +151,7 @@ jobs:
           add-to-path: true
 
       - name: Install cargo-ndk
-        run: cargo install cargo-ndk --locked
+        run: cargo install cargo-ndk --version 3.5.4 --locked
 
       - name: Build (API 26 = Android 8.0 Oreo)
         env:
