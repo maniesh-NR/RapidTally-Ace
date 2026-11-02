@@ -152,7 +152,7 @@ jobs:
 
       - name: Build (API 26 = Android 8.0 Oreo)
         env:
-          ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-root }}
+          ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
         run: |
           NDKBIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
           export PATH="$NDKBIN:$PATH"
