@@ -62,7 +62,7 @@ jobs:
       - name: Install pinned toolchain (Rust 1.77.2 - Windows 7 support ceiling)
         run: |
           rustup toolchain install 1.77.2 --profile minimal
-          rustup target add --toolchain 1.77.2 aarch64-apple-darwin
+          rustup target add --toolchain 1.77.2 x86_64-apple-darwin aarch64-apple-darwin
           rustup default 1.77.2
 
       - name: Build x86_64 (Catalina)
