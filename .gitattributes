@@ -1,0 +1,6 @@
+* text=auto
+*.png binary
+*.zip binary
+*.tar.gz binary
+*.flatpak binary
+*.deb binary

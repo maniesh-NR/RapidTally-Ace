@@ -1,0 +1,16 @@
+[package]
+name = "rapidtally-format"
+description = "Clean-room structural probe for QuickBooks Desktop database files (.QBW/.QBB) - RapidTally Ace phase 0"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords = ["quickbooks", "qbw", "sql-anywhere", "forensics", "accounting"]
+categories = ["parser-implementations", "development-tools"]
+
+[lib]
+name = "rapidtally_format"
+path = "src/lib.rs"
+crate-type = ["rlib", "staticlib", "cdylib"]

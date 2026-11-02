@@ -1,0 +1,238 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BIN: rapidtally-ace
+  VERSION: 0.1.0
+  CARGO_TERM_COLOR: always
+
+jobs:
+  windows:
+    name: Windows 7+ (x86_64 + i686)
+    runs-on: windows-2022
+    env:
+      RUSTFLAGS: -C target-feature=+crt-static
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned toolchain (Rust 1.77.2 - Windows 7 support ceiling)
+        run: |
+          rustup toolchain install 1.77.2 --profile minimal
+          rustup target add --toolchain 1.77.2 i686-pc-windows-msvc
+          rustup default 1.77.2
+
+      - name: Build x86_64
+        run: cargo build --release --target x86_64-pc-windows-msvc
+
+      - name: Build i686
+        run: cargo build --release --target i686-pc-windows-msvc
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          foreach ($arch in @("x86_64", "i686")) {
+            $stage = "staging/rapidtally-ace-$env:VERSION-windows-$arch"
+            New-Item -ItemType Directory -Force -Path $stage | Out-Null
+            Copy-Item "target/$arch-pc-windows-msvc/release/rapidtally-ace.exe" $stage/
+            Copy-Item LICENSE-MIT, LICENSE-APACHE, NOTICE.md, README.md, CHANGELOG.md $stage/
+            Compress-Archive -Path $stage -DestinationPath "dist/rapidtally-ace-$env:VERSION-windows-$arch.zip"
+          }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: dist/*.zip
+          if-no-files-found: error
+
+  macos:
+    name: macOS Catalina+ (x86_64 + universal2)
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned toolchain (Rust 1.77.2 - Windows 7 support ceiling)
+        run: |
+          rustup toolchain install 1.77.2 --profile minimal
+          rustup target add --toolchain 1.77.2 aarch64-apple-darwin
+          rustup default 1.77.2
+
+      - name: Build x86_64 (Catalina)
+        run: cargo build --release --target x86_64-apple-darwin
+
+      - name: Build aarch64 (Apple Silicon)
+        run: cargo build --release --target aarch64-apple-darwin
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          mkdir -p dist staging
+          STAGE1="staging/rapidtally-ace-${VERSION}-macos-x86_64"
+          STAGEU="staging/rapidtally-ace-${VERSION}-macos-universal2"
+          mkdir -p "$STAGE1" "$STAGEU"
+          cp "target/x86_64-apple-darwin/release/${BIN}" "$STAGE1/"
+          lipo -create -output "$STAGEU/${BIN}" \
+            "target/x86_64-apple-darwin/release/${BIN}" \
+            "target/aarch64-apple-darwin/release/${BIN}"
+          codesign --force --sign - "$STAGE1/${BIN}" "$STAGEU/${BIN}"
+          for d in "$STAGE1" "$STAGEU"; do
+            cp LICENSE-MIT LICENSE-APACHE NOTICE.md README.md CHANGELOG.md "$d/"
+          done
+          (cd staging \
+            && zip -qr "../dist/rapidtally-ace-${VERSION}-macos-x86_64.zip" "rapidtally-ace-${VERSION}-macos-x86_64" \
+            && zip -qr "../dist/rapidtally-ace-${VERSION}-macos-universal2.zip" "rapidtally-ace-${VERSION}-macos-universal2")
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-artifacts
+          path: dist/*.zip
+          if-no-files-found: error
+
+  linux:
+    name: Linux Mint/Debian (static x86_64 + .deb)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned toolchain (Rust 1.77.2 - Windows 7 support ceiling)
+        run: |
+          rustup toolchain install 1.77.2 --profile minimal
+          rustup target add --toolchain 1.77.2 x86_64-unknown-linux-musl
+          rustup default 1.77.2
+
+      - name: Install musl tools
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+
+      - name: Build (fully static musl)
+        run: cargo build --release --target x86_64-unknown-linux-musl
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          mkdir -p dist staging
+          STAGE="staging/rapidtally-ace-${VERSION}-linux-x86_64"
+          mkdir -p "$STAGE"
+          cp "target/x86_64-unknown-linux-musl/release/${BIN}" "$STAGE/"
+          cp LICENSE-MIT LICENSE-APACHE NOTICE.md README.md CHANGELOG.md "$STAGE/"
+          tar -czf "dist/rapidtally-ace-${VERSION}-linux-x86_64.tar.gz" -C staging "rapidtally-ace-${VERSION}-linux-x86_64"
+          VERSION="$VERSION" bash packaging/deb/build-deb.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
+          path: dist/*
+          if-no-files-found: error
+
+  android:
+    name: Android 8.0 Oreo+ (arm64-v8a + armeabi-v7a)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pinned toolchain (Rust 1.77.2 - Windows 7 support ceiling)
+        run: |
+          rustup toolchain install 1.77.2 --profile minimal
+          rustup target add --toolchain 1.77.2 aarch64-linux-android armv7-linux-androideabi
+          rustup default 1.77.2
+
+      - name: Install Android NDK r26d
+        id: ndk
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r26d
+          add-to-path: true
+
+      - name: Install cargo-ndk
+        run: cargo install cargo-ndk --locked
+
+      - name: Build (API 26 = Android 8.0 Oreo)
+        env:
+          ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-root }}
+        run: cargo ndk --platform 26 --target arm64-v8a --target armeabi-v7a --output jniLibs build --release
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          mkdir -p dist staging
+          stage_pair() {
+            local abi="$1" triple="$2"
+            local stage="staging/rapidtally-ace-${VERSION}-android-${abi}"
+            mkdir -p "$stage/jniLibs/${abi}"
+            cp "target/${triple}/release/${BIN}" "$stage/"
+            cp "jniLibs/${abi}/"*.so "$stage/jniLibs/${abi}/"
+            cp LICENSE-MIT LICENSE-APACHE NOTICE.md README.md CHANGELOG.md "$stage/"
+            (cd staging && zip -qr "../dist/rapidtally-ace-${VERSION}-android-${abi}.zip" "rapidtally-ace-${VERSION}-android-${abi}")
+          }
+          stage_pair arm64-v8a aarch64-linux-android
+          stage_pair armeabi-v7a armv7-linux-androideabi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-artifacts
+          path: dist/*.zip
+          if-no-files-found: error
+
+  flatpak:
+    name: Flatpak bundle (any distro)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install flatpak + flatpak-builder
+        run: sudo apt-get update && sudo apt-get install -y flatpak flatpak-builder
+
+      - name: Configure Flathub
+        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+      - name: Build bundle
+        run: |
+          flatpak-builder --user --install-deps-from=flathub --force-clean --repo=flatpak-repo build-dir packaging/flatpak/com.rapidtallyace.RapidTallyAce.json
+          flatpak build-bundle flatpak-repo "RapidTallyAce-${VERSION}-x86_64.flatpak" com.rapidtallyace.RapidTallyAce stable
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-artifacts
+          path: '*.flatpak'
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub release
+    needs: [windows, macos, linux, android, flatpak]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Generate SHA256SUMS
+        run: |
+          mkdir -p release-assets
+          find artifacts -maxdepth 1 -type f -exec cp {} release-assets/ \;
+          cd release-assets
+          sha256sum * > SHA256SUMS.txt
+          echo "== release assets =="
+          ls -la
+
+      - name: Attach to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: RapidTally Ace ${{ github.ref_name }} (Phase 0)
+          body_path: .github/release-notes/v0.1.0.md
+          files: release-assets/*
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

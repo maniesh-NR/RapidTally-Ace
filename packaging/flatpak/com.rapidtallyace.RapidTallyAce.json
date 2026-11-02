@@ -1,0 +1,36 @@
+{
+  "id": "com.rapidtallyace.RapidTallyAce",
+  "branch": "stable",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "23.08",
+  "sdk": "org.freedesktop.Sdk",
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.rust-stable"
+  ],
+  "command": "rapidtally-ace",
+  "finish-args": [
+    "--filesystem=home"
+  ],
+  "modules": [
+    {
+      "name": "rapidtally-ace",
+      "buildsystem": "simple",
+      "build-commands": [
+        "source /usr/lib/sdk/rust-stable/enable.sh && cargo build --release",
+        "install -Dm755 target/release/rapidtally-ace /app/bin/rapidtally-ace",
+        "install -Dm644 LICENSE-MIT /app/share/licenses/rapidtally-ace/LICENSE-MIT",
+        "install -Dm644 LICENSE-APACHE /app/share/licenses/rapidtally-ace/LICENSE-APACHE",
+        "install -Dm644 NOTICE.md /app/share/licenses/rapidtally-ace/NOTICE.md",
+        "install -Dm644 packaging/flatpak/com.rapidtallyace.RapidTallyAce.desktop /app/share/applications/com.rapidtallyace.RapidTallyAce.desktop",
+        "install -Dm644 packaging/flatpak/com.rapidtallyace.RapidTallyAce.metainfo.xml /app/share/metainfo/com.rapidtallyace.RapidTallyAce.metainfo.xml",
+        "install -Dm644 assets/icon-256.png /app/share/icons/hicolor/256x256/apps/com.rapidtallyace.RapidTallyAce.png"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "../.."
+        }
+      ]
+    }
+  ]
+}

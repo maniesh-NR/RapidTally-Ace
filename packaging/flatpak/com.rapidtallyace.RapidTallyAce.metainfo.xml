@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.rapidtallyace.RapidTallyAce</id>
+  <name>RapidTally Ace</name>
+  <summary>Clean-room accounting suite and QuickBooks Desktop database probe</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer_name>RapidTally Ace Project</developer_name>
+  <description>
+    <p>
+      RapidTally Ace is an independent, clean-room, cross-platform accounting
+      suite. This phase-0 release ships a command-line structural probe for
+      QuickBooks Desktop database files (.QBW/.QBB): ASCII signature scanning,
+      candidate page-size analysis, per-region entropy mapping and a hex dump.
+    </p>
+    <p>
+      The project is engineered without any Intuit source code or proprietary
+      material and is not affiliated with Intuit Inc.
+    </p>
+  </description>
+  <launchable type="desktop-id">com.rapidtallyace.RapidTallyAce.desktop</launchable>
+  <releases>
+    <release version="0.1.0" date="2026-11-02">
+      <description>
+        <p>Initial public phase-0 release: format probe CLI, clean-room protocol docs, multi-platform release engineering.</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>rapidtally-ace</binary>
+  </provides>
+</component>

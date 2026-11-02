@@ -1,0 +1,9 @@
+# RapidTally Ace pins the Rust toolchain to 1.77.2.
+#
+# Rationale: Rust 1.78 (May 2024) dropped Windows 7 support. The project
+# targets Windows 7 SP1 and newer, so the whole workspace must stay
+# buildable with the 1.77.x line. CI enforces this exact toolchain.
+[toolchain]
+channel = "1.77.2"
+profile = "minimal"
+components = ["rustfmt", "clippy"]

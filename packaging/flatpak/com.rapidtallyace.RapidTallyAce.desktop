@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=RapidTally Ace
+GenericName=Accounting & Bookkeeping
+Comment=Clean-room QuickBooks Desktop database probe (phase 0)
+Exec=rapidtally-ace
+Icon=com.rapidtallyace.RapidTallyAce
+Terminal=true
+Categories=Office;Finance;Utility;
+Keywords=accounting;bookkeeping;quickbooks;ledger;

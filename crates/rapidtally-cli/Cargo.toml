@@ -1,0 +1,18 @@
+[package]
+name = "rapidtally-cli"
+description = "rapidtally-ace CLI - structural probe for QuickBooks Desktop database files (RapidTally Ace phase 0)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords = ["quickbooks", "qbw", "cli", "accounting", "forensics"]
+categories = ["command-line-utilities", "development-tools"]
+
+[[bin]]
+name = "rapidtally-ace"
+path = "src/main.rs"
+
+[dependencies]
+rapidtally-format = { path = "../rapidtally-format" }
