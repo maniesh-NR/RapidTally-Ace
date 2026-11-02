@@ -16,8 +16,16 @@ NDK r26d at `--platform 26` (Android 8.0 Oreo):
 
 ```bash
 rustup target add aarch64-linux-android armv7-linux-androideabi
-cargo install cargo-ndk --locked
-cargo ndk --platform 26 --target arm64-v8a --target armeabi-v7a --output jniLibs build --release
+export ANDROID_NDK_HOME=/path/to/android-ndk-r26d
+NDKBIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+export PATH="$NDKBIN:$PATH"
+export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="$NDKBIN/aarch64-linux-android26-clang"
+export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="$NDKBIN/armv7a-linux-androideabi26-clang"
+cargo build --release --target aarch64-linux-android --target armv7-linux-androideabi
+# outputs:
+#   target/aarch64-linux-android/release/rapidtally-ace
+#   target/aarch64-linux-android/release/librapidtally_format.so
+#   target/armv7-linux-androideabi/release/... (same names)
 ```
 
 (Requires the Android NDK; `ANDROID_NDK_HOME` must point at it.)

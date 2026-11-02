@@ -150,13 +150,15 @@ jobs:
           ndk-version: r26d
           add-to-path: true
 
-      - name: Install cargo-ndk
-        run: cargo install cargo-ndk --version 3.5.4 --locked
-
       - name: Build (API 26 = Android 8.0 Oreo)
         env:
           ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-root }}
-        run: cargo ndk --platform 26 --target arm64-v8a --target armeabi-v7a --output jniLibs build --release
+        run: |
+          NDKBIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          export PATH="$NDKBIN:$PATH"
+          export CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER="$NDKBIN/aarch64-linux-android26-clang"
+          export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="$NDKBIN/armv7a-linux-androideabi26-clang"
+          cargo build --release --target aarch64-linux-android --target armv7-linux-androideabi
 
       - name: Package
         run: |
@@ -167,7 +169,7 @@ jobs:
             local stage="staging/rapidtally-ace-${VERSION}-android-${abi}"
             mkdir -p "$stage/jniLibs/${abi}"
             cp "target/${triple}/release/${BIN}" "$stage/"
-            cp "jniLibs/${abi}/"*.so "$stage/jniLibs/${abi}/"
+            cp "target/${triple}/release/librapidtally_format.so" "$stage/jniLibs/${abi}/"
             cp LICENSE NOTICE.md README.md CHANGELOG.md "$stage/"
             (cd staging && zip -qr "../dist/rapidtally-ace-${VERSION}-android-${abi}.zip" "rapidtally-ace-${VERSION}-android-${abi}")
           }
